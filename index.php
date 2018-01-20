@@ -1,209 +1,42 @@
-<?php
-header("content-type: text/html; charset=utf-8");
-
-$dictionary = [
-    "Адыгея Республика" => [
-        "Адыгейск",
-        "Майкоп",
-    ],
-    "Бурятия Республика" => [
-        "Бабушкин",
-        "Гусиноозерск",
-        "Закаменск",
-        "Кяхта",
-        "Северобайкальск",
-        "Улан-Удэ",
-    ],
-    "Алтай Республика" => [
-        "Горно-Алтайск",
-    ],
-    "Ингушетия Республика" => [
-        "Карабулак",
-        "Магас",
-        "Малгобек",
-        "Назрань",
-    ],
-    "Архангельская Область" => [
-        "Архангельск",
-        "Вельск",
-        "Каргополь",
-        "Коряжма",
-        "Котлас",
-        "Мезень",
-        "Мирный",
-        "Новодвинск",
-        "Няндома",
-        "Онега",
-    ],
-];
-
-$menu = [
-    [
-        "title" => "Example 1",
-        "url" => "",
-        "childes" => [
-            [
-                "title" => "Example 1.1",
-                "url" => "",
-                "childes" => []
-            ],
-            [
-                "title" => "Example 1.2",
-                "url" => "",
-                "childes" => [
-                    [
-                        "title" => "Example 1.2.1",
-                        "url" => "",
-                        "childes" => []
-                    ],
-                    [
-                        "title" => "Example 1.2.2",
-                        "url" => "",
-                        "childes" => []
-                    ],
-                ]
-            ],
-            [
-                "title" => "Example 1.3",
-                "url" => "",
-                "childes" => []
-            ],
-        ]
-    ],
-    [
-        "title" => "Example 2",
-        "url" => "",
-        "childes" => [
-            [
-                "title" => "Example 2.1",
-                "url" => "",
-                "childes" => []
-            ],
-            [
-                "title" => "Example 2.2",
-                "url" => "",
-                "childes" => []
-            ],
-        ]
-    ],
-    [
-        "title" => "Example 3",
-        "url" => "",
-        "childes" => []
-    ],
-    [
-        "title" => "Example 4",
-        "url" => "",
-        "childes" => []
-    ],
-];
-
-function ex1()
-{
-    $conter = 0;
-    $result = [];
-    while ($conter <= 100) {
-        if ($conter % 3 == 0) $result[] = $conter;
-        $conter++;
-    }
-    return implode(", ", $result);
-}
-
-function ex2()
-{
-    $conter = 0;
-    $result = [];
-    do {
-        if ($conter == 0) {
-            $result[] = "$conter – это ноль.";
-        } elseif ($conter % 2 == 0) {
-            $result[] = "$conter – четное число.";
-        } else {
-            $result[] = "$conter – нечетное число.";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Images</title>
+    <style>
+        .div_img {
+            display: inline-block;
+            width: 500px;
+            height: 300px;
+            text-align:center;
         }
-        $conter++;
-    } while ($conter <= 10);
-    return implode("<br>", $result);
-}
 
-function ex3($first = "")
-{
-    global $dictionary;
-    $result = [];
-    foreach ($dictionary as $region => $cityArr) {
-        if ($first !== "") {
-            $newCityArr = [];
-            foreach ($cityArr as $city) {
-                if (preg_split("//u", $city)[1] == $first) $newCityArr[] = $city;
-            }
-            $cityArr = $newCityArr;
+        .img {
+            height: 300px;
         }
-        $result[] = "$region:<br>" . implode(", ", $cityArr);
-    }
-    return implode("<br>", $result);
-}
-
-function transliterate($string)
-{
-    $russian = array("А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ъ", "Ы", "Ь", "Э", "Ю", "Я", "а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й", "к", "л", "м", "н", "о", "п", "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ы", "ь", "э", "ю", "я", " ");
-    $english = array("A", "B", "V", "G", "D", "E", "E", "Gh", "Z", "I", "Y", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "F", "H", "C", "Ch", "Sh", "Sch", "Y", "Y", "Y", "E", "Yu", "Ya", "a", "b", "v", "g", "d", "e", "e", "gh", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "c", "ch", "sh", "sch", "\"", "y", "'", "e", "yu", "ya", "_");
-
-    return str_replace($russian, $english, $string);
-}
-
-function menu($menu)
-{
-    $result = "<ul>";
-    foreach ($menu as $elem) {
-        $title = $elem["title"];
-        $url = $elem["url"];
-        $result .= "<li><a href='$url'>$title</a>";
-        if (count($elem["childes"]) > 0) {
-            $result .= menu($elem["childes"]);
-        }
-        $result .= "</li>";
-    }
-    $result .= "</ul>";
-    return $result;
-}
-
-function ex7()
-{
-    $result = "";
-    for ($i = 0; $i <= 9; $result .= $i++ . "; ") ;
-    return $result;
-}
-
-
-$ex1 = ex1();
-$ex2 = ex2();
-$ex3 = ex3();
-$transliterate = transliterate("Меня зовут Губанова Мария Михайловна. Рада приветствовать!");
-$ex6 = menu($menu);
-$ex7 = ex7();
-$ex8 = ex3("К");
-
-$content = "
-<html>
-<header></header>
+    </style>
+</head>
 <body>
-<p>Ex 1</p>
-<p>$ex1</p>
-<p>Ex 2</p>
-<p>$ex2</p>
-<p>Ex 3</p>
-<p>$ex3</p>
-<p>Ex 4, 5, 9</p>
-<p>$transliterate</p>
-<p>Ex 6</p>
-<p>$ex6</p>
-<p>Ex 7</p>
-<p>$ex7</p>
-<p>Ex 8</p>
-<p>$ex8</p>
+<?php
+$directory = "./images";
+$allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+$file_parts = array();
+$ext = "";
+
+$dir_handle = @opendir($directory) or die("Ошибка при открытии папки !!!");
+while ($file = readdir($dir_handle)) {
+    if ($file == "." || $file == "..") continue;
+    $file_parts = explode(".", $file);
+    $ext = strtolower(array_pop($file_parts));
+    if (in_array($ext, $allowed_types)) {
+        echo "<div class = 'div_img' ><a href='$directory/$file' target='_blank'><img src='$directory/$file' class='img' title='$file'/></a></div>";
+    }
+}
+closedir($dir_handle);
+?>
+<form action="save.php" enctype="multipart/form-data" method="POST" name="form_upload">
+    <input id="file" name="file" type="file" accept="image/*,image/jpeg"/>
+    <input name="button" type="submit" value="Отправить"/>
+</form>
 </body>
 </html>
-";
-
-echo $content;
-?>
