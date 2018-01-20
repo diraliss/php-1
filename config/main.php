@@ -1,15 +1,23 @@
 <?php
 
+if (!defined('ROOT_DIR')) {
+    define('ROOT_DIR', realpath(__DIR__ . '/../'));
+}
+
 if (!defined('PUBLIC_DIR')) {
-    define('PUBLIC_DIR', realpath(__DIR__ . '/../'));
+    define('PUBLIC_DIR', ROOT_DIR . '/htdocs/');
 }
 
 if (!defined('ENGINE_DIR')) {
-    define('ENGINE_DIR', PUBLIC_DIR . '/engine/');
+    define('ENGINE_DIR', ROOT_DIR . '/engine/');
+}
+
+if (!defined('CONTROL_DIR')) {
+    define('CONTROL_DIR', ROOT_DIR . '/controllers/');
 }
 
 if (!defined('CONFIG_DIR')) {
-    define('CONFIG_DIR', PUBLIC_DIR . '/config/');
+    define('CONFIG_DIR', ROOT_DIR . '/config/');
 }
 
 if (!defined('UPLOAD_DIR')) {
@@ -17,9 +25,16 @@ if (!defined('UPLOAD_DIR')) {
 }
 
 if (!defined('TUMB_DIR')) {
-    define('TUMB_DIR', PUBLIC_DIR . '/upload/tumb');
+    define('TUMB_DIR', PUBLIC_DIR . '/upload/tumb/');
 }
 
-if (!defined('DATABASE_NAME')) {
-    define('DATABASE_NAME', '`images`');
+if (!defined('TEMPLATES_DIR')) {
+    define('TEMPLATES_DIR', ROOT_DIR . '/templates/');
 }
+
+// DB connection param
+define('HOST', '127.0.0.1');
+define('USER', 'root');
+define('PASS', 'pass');
+define('DB', 'geekshop');
+

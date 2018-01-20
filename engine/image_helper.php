@@ -57,6 +57,75 @@ function uploadImage($files, $dir, $maxSize) {
         $out['error'] = 'Ошибка загрузки файла ';
         return $out;
     }
+
+    if (empty($out['error'])) {
+        addImageToDb($out['file'], $_FILES[$files]['name'], filesize($fileTmpName));
+    }
+
     return $out;
 
+}
+
+/**
+ * Получить информацию об изображении
+ * @param $imgId
+ * @return array
+ */
+function getImageInfo($imgId) {
+    $link = getConnection();
+
+    $sql = "SELECT * FROM `images` WHERE `id` = " . (int) $imgId;
+
+    $result = getAssocResult($sql, $link);
+
+    if (count($result) > 0) {
+        return $result[0];
+    }
+
+    return [];
+}
+
+/**
+ * Увеличить счетчик
+ * @param $imgId
+ */
+function incCounter($imgId) {
+
+//    $res = getAssocResult("SELECT `views` FROM `images` WHERE `id` = " . (int) $imgId);
+//    $curCounter = $res['views'];
+//    $curCounter++; //5000 -> 5001
+    //--------------------------------------
+    //$sql = "UPDATE `images` SET `views` = {$curCounter} WHERE `id` = " . (int) $imgId;
+
+    $sql = "UPDATE `images` SET `views` = `views` + 1 WHERE `id` = " . (int) $imgId;
+
+    executeQuery($sql);
+
+}
+
+/**
+ * Добавить изображение в базу
+ * @param $filePath
+ * @param $fileName
+ * @param $fileSize
+ */
+function addImageToDb($filePath, $fileName, $fileSize) {
+    $filePath = escapeString($filePath);
+    $fileName = escapeString($fileName);
+    $fileSize = (int) $fileSize;
+
+    $sql = "INSERT INTO `images` (`name`, `title`, `size`, `views`, `date`) 
+        VALUES ('{$filePath}', '{$fileName}', {$fileSize}, 0, NOW())";
+
+    executeQuery($sql);
+}
+
+/**
+ * Получить все изображения
+ * @return array
+ */
+function getAllImages() {
+    $sql = "SELECT * FROM `images` ORDER BY `views` DESC ";
+
+    return getAssocResult($sql);
 }

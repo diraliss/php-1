@@ -1,0 +1,10 @@
+<form action="/save.php" enctype="multipart/form-data" method="post">
+    <textarea name="comment" id="" cols="30" rows="10" title="Отзыв"></textarea>
+    <input type="submit" name="plus" value="Добавить">
+</form>
+
+<div>
+    <?php foreach ($comments as $comment):?>
+        <p><?=$comment['text']?></p>
+    <?php endforeach;?>
+</div>

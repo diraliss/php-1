@@ -1,0 +1,9 @@
+<ul>
+    <?php foreach ($data as $type => $item): ?>
+        <?php foreach ($item as $key => $value): ?>
+            <li>
+                <a href="?type=<?=$type?>&number=<?=$key?>"><?=$value[0]?></a>
+            </li>
+        <?php endforeach;?>
+    <?php endforeach;?>
+</ul>

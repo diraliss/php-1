@@ -1,0 +1,10 @@
+<form action="/save.php" enctype="multipart/form-data" method="post">
+    <input type="file" name="up_file">
+    <input type="submit" value="Отправить">
+</form>
+<br/><br/>
+<?php foreach ($images as $imgInfo): ?>
+    <a href="image.php?image=<?= $imgInfo['id'] ?>" target="_blank">
+        <img src="upload/tumb/<?= $imgInfo['name'] ?>">
+    </a>
+<?php endforeach; ?>
